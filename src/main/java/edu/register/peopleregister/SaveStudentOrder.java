@@ -98,7 +98,7 @@ public class SaveStudentOrder {
         //Ребенок 1
         Child child1 = new Child("Petrova", "Irina", "Viktorovna", LocalDate.of(2018, 6, 29));
         child1.setCertificateNumber("" + (300000 + id));
-        child1.setIssueDate(LocalDate.of(2018, 7, 12));
+        child1.setIssueDate(LocalDate.of(2018, 6, 11));
         child1.setIssueDepartment(ro);
         child1.setAddress(address);
 
