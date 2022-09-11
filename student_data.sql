@@ -5,6 +5,12 @@ INSERT INTO jc_street (street_code, street_name) VALUES
 (4, 'street Volonova'),
 (5, 'street Suhova')
 
+INSERT INTO jc_university(university_id, university_name) VALUES
+(1, 'Saint Petersburg State University'),
+(2, 'Saint Petersburg Polytechnic University'),
+(3, 'Saint Petersburg Marine Technical University')
+
+
 INSERT INTO jc_country_struct(area_id, area_name) VALUES
 ('010000000000', 'City'),
 ('010010000000', 'City area 1'),
