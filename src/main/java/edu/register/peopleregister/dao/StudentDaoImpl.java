@@ -53,33 +53,31 @@ public class StudentDaoImpl implements StudentOrderDao {
 
         try (Connection con = getConnection()) {
             try (PreparedStatement stmt = con.prepareStatement(INSERT_ORDER, new String[]{"student_order_id"})) {
-
-                //header
-                stmt.setInt(1, StudentOrderStatus.START.ordinal());
-                stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
-
-                //husband
-                setParamsForAdult(stmt, 3, so.getHusband());
-
-                //wife
-                setParamsForAdult(stmt, 16, so.getWife());
-
-                //marriage
-                stmt.setString(29, so.getMarriageCertificateId());
-                stmt.setLong(30, so.getMarriageOffice().getOfficeId());
-                stmt.setDate(31, Date.valueOf(so.getMarriageDate()));
-
-                stmt.executeUpdate();
-
-                ResultSet gkRs = stmt.getGeneratedKeys();
-
-                if (gkRs.next()) {
-                    result = gkRs.getLong(1);
+                con.setAutoCommit(false);
+                try {
+                    //header
+                    stmt.setInt(1, StudentOrderStatus.START.ordinal());
+                    stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+                    //husband
+                    setParamsForAdult(stmt, 3, so.getHusband());
+                    //wife
+                    setParamsForAdult(stmt, 16, so.getWife());
+                    //marriage
+                    stmt.setString(29, so.getMarriageCertificateId());
+                    stmt.setLong(30, so.getMarriageOffice().getOfficeId());
+                    stmt.setDate(31, Date.valueOf(so.getMarriageDate()));
+                    stmt.executeUpdate();
+                    ResultSet gkRs = stmt.getGeneratedKeys();
+                    if (gkRs.next()) {
+                        result = gkRs.getLong(1);
+                    }
+                    gkRs.close();
+                    saveChildren(con, so, result);
+                    con.commit();
+                } catch (SQLException e) {
+                    con.rollback();
+                    throw e;
                 }
-
-                gkRs.close();
-
-                saveChildren(con, so, result);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
