@@ -1,10 +1,11 @@
 package edu.register.peopleregister;
 
-import edu.register.peopleregister.dao.StudentDaoImpl;
 import edu.register.peopleregister.dao.StudentOrderDao;
+import edu.register.peopleregister.dao.StudentOrderDaoImpl;
 import edu.register.peopleregister.domain.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class SaveStudentOrder {
 
@@ -49,10 +50,15 @@ public class SaveStudentOrder {
 //        long ans = saveStudentOrder(so);
 //        System.out.println(ans);
 
-        StudentOrder so = buildStudentOrder(10);
-        StudentOrderDao dao = new StudentDaoImpl();
-        Long id = dao.saveStudentOrder(so);
-        System.out.println(id);
+//        StudentOrder so = buildStudentOrder(10);
+          StudentOrderDao dao = new StudentOrderDaoImpl();
+//        Long id = dao.saveStudentOrder(so);
+//        System.out.println(id);
+
+        List<StudentOrder> soList = dao.getStudentOrders();
+        for (StudentOrder studentOrder : soList) {
+            System.out.println(studentOrder.getStudentOrderId());
+        }
 
     }
 
